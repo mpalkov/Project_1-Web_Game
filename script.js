@@ -1,14 +1,14 @@
 const X_PLAYER = 'x';
 const O_PLAYER = 'o';
+whosTurn = X_PLAYER;
 class Game {
     constructor() {
         // element = board
-        // element cells queryAll [9items]
         this.cells = document.querySelectorAll(".cell");
-        this.whosTurn = 'x'; 
-        cells.forEach(element => {
-            addEventListener("click", (event) => {
-                toggleCell(this);
+        this.cells.forEach(element => {
+            element.addEventListener("click", (event) => {
+                toggleCell(element);
+                switchTurn();
             }, {once:true});
         });
     }
@@ -21,8 +21,18 @@ class Game {
 }
 
 const myGame = new Game;
+// resetAll
 
-const toggleCell = (cell) => {
+function switchTurn() {
+    if (whosTurn === X_PLAYER) {
+        whosTurn = O_PLAYER;
+    }
+    else {
+        whosTurn = X_PLAYER;
+    }
+}
+
+function toggleCell(cell) {
     console.log("clicked", cell);
     cell.classList.add(whosTurn);
 }
