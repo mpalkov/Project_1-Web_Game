@@ -15,5 +15,5 @@ If I have time, I will apply some of these extras
     - add New Game button
 - add option for computer as second-player
 - add sound effects
-- add more difficulty levels
+- add more difficulty levels (5x5 / 7x7)
 - make it more fun
