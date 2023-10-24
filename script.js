@@ -1,35 +1,54 @@
 const X_PLAYER = 'x';
 const O_PLAYER = 'o';
 let whosTurn = X_PLAYER;
+let myGame = null;
 class Game {
     constructor() {
         // element = board
         this.level = 3;
+        this.endScreen = document.querySelector(".end-screen");
+        this.gameBoard = document.querySelector("#gameBoard");
+        this.newGameBtn = document.querySelector(".end-screen button");
+
         for (let i = 0; i < this.level * this.level; i++) {
             const cell = document.createElement("div");
             cell.classList.add("cell");
             cell.id = i;
-            document.querySelector("#gameBoard").appendChild(cell);
+            this.gameBoard.appendChild(cell);
         }
-
         this.cells = document.querySelectorAll(".cell");
         this.cells.forEach(element => {
             element.addEventListener("click", (event) => {
                 const cellNo = Number(element.id);
                 toggleCell(element);
-                checkIfFinished(this.cells, cellNo);
+                if (isGameFinished(this.cells, cellNo)) {
+                    this.endScreen.classList.toggle("hidden");
+                }
                 switchTurn();
             }, {once:true});
         });
+
+        this.newGameBtn.addEventListener("click", (e) => {
+            this.endScreen.classList.toggle("hidden");
+            this.gameBoard.innerHTML = "";
+            startNewGame();
+        });
     }
 
-    isGameFinished = () => {
-        array.forEach(element => {
-            
-        });
-    };
 }
 
+const startNewGame = () => {
+    myGame = new Game;
+    // resetAll
+};
+
+startNewGame();
+
+/* const restartGame = () => {
+    const endGame = document.querySelector(".endgame");
+    endGame.classList.toggle("hidden");
+}
+ */
 const doesCellMatch = (cell) => {
     return cell.classList.contains(whosTurn);
 };
@@ -39,7 +58,7 @@ const hasHorizontalWin = (array, cellNo) => {
     const lvl = myGame.level;
     for (let row = 0; row < lvl; row++) {
         if (row === Math.floor(cellNo / lvl)) {
-            if (array[cellNo + 2] && doesCellMatch(array[cellNo + 2] && doesCellMatch(array[cellNo + 1])) {
+            if (array[cellNo + 2] && doesCellMatch(array[cellNo + 2]) && doesCellMatch(array[cellNo + 1])) {
                 return true;
             }
             else if (array[cellNo - 2] && doesCellMatch(array[cellNo - 2]) && doesCellMatch(array[cellNo - 1])) {
@@ -102,14 +121,14 @@ const hasDiagonalWin = (array, cellNo) => {
 
 
 
-const checkIfFinished = (array, cellNo) => {
+const isGameFinished = (array, cellNo) => {
     if (hasHorizontalWin(array, cellNo)) {
         console.log("HORIZONTAL WIN - - - - ");
-        return (true);
+        return true;
     } 
     if (hasVerticalWin(array, cellNo)) {
         console.log("VERTICAL WIN | | | | ");
-        return (true);
+        return true;
     }
     if (hasDiagonalWin(array, cellNo)) {
         console.log("DIAGONAL WIN / / / / / ");
@@ -124,9 +143,6 @@ const checkIfFinished = (array, cellNo) => {
         return false;
     } */
 }
-
-const myGame = new Game;
-// resetAll
 
 const switchTurn = () => {
     if (whosTurn === X_PLAYER) {

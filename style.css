@@ -1,6 +1,15 @@
 * {
     margin: 0;
+    padding: 0;
     box-sizing: border-box;
+    border: 0;
+    font-family: Gelion,sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-content: center;
 }
 
 .game-board {
@@ -31,4 +40,37 @@
 
 .cell:not(.x):not(.o):hover{
     background-color: lightgray;
+}
+
+.end-screen {
+    position:fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.end-screen h2 {
+    color: white;
+    font-size: 3em;
+}
+
+.end-screen button {
+    font-size: 1.5em;
+    padding: 10px 15px;
+    margin-top: 15px;
+    background-color: white;
+}
+
+.end-screen button:hover {
+    background-color: rgb(194, 255, 181);
+}
+
+.hidden {
+    display: none;
 }
