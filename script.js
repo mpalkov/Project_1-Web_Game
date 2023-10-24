@@ -1,5 +1,8 @@
 const X_PLAYER = 'x';
 const O_PLAYER = 'o';
+const TEXT_X_WON = "X WINS!"
+const TEXT_O_WON = "O WINS!"
+const TEXT_DRAW = "DRAW, NO WINNER!"
 let whosTurn = X_PLAYER;
 let myGame = null;
 let isGameOver = true;
@@ -16,6 +19,7 @@ class Game {
         this.endScreen = document.querySelector(".end-screen");
         this.gameBoard = document.querySelector("#gameBoard");
         this.newGameBtn = document.querySelector(".end-screen button");
+        this.endScreenText = document.querySelector(".end-screen h2");
 
         for (let i = 0; i < this.level * this.level; i++) {
             const cell = document.createElement("div");
@@ -62,13 +66,19 @@ const hasHorizontalWin = (array, cellNo) => {
     const lvl = myGame.level;
     for (let row = 0; row < lvl; row++) {
         if (row === Math.floor(cellNo / lvl)) {
-            if (array[cellNo + 2] && doesCellMatch(array[cellNo + 2]) && doesCellMatch(array[cellNo + 1])) {
+            //check if just-clicked cell is of column 1 so you can search 2 to the right and not go beyond the row.
+            const clickColumn = cellNo % lvl;
+            //check 2 right
+            if (clickColumn === 0 && array[cellNo + 2] && doesCellMatch(array[cellNo + 2]) && doesCellMatch(array[cellNo + 1])) {
+                console.log("this", clickColumn, cellNo, array[cellNo + 2], array[cellNo + 1]);
                 return true;
             }
-            else if (array[cellNo - 2] && doesCellMatch(array[cellNo - 2]) && doesCellMatch(array[cellNo - 1])) {
+            // check 2 left
+            else if (clickColumn === 2 && array[cellNo - 2] && doesCellMatch(array[cellNo - 2]) && doesCellMatch(array[cellNo - 1])) {
                 return true;
             }
-            else if (array[cellNo - 1] && array[cellNo + 1] && doesCellMatch(array[cellNo - 1]) && doesCellMatch(array[cellNo + 1])) {
+            //check 1 left and 1 right
+            else if (clickColumn === 1 && array[cellNo - 1] && array[cellNo + 1] && doesCellMatch(array[cellNo - 1]) && doesCellMatch(array[cellNo + 1])) {
                 return true;
             }
             else {
@@ -81,8 +91,8 @@ const hasHorizontalWin = (array, cellNo) => {
 const hasVerticalWin = (array, cellNo) => {
     const lvl = myGame.level;
     for (let col = 0; col < lvl; col++) {
-        if (col === cellNo % lvl) {            
-            const clickCol = cellNo % lvl;
+        if (col === cellNo % lvl) {      
+            // const clickRow = cellNo / lvl;
             if (array[cellNo + lvl * 2] && doesCellMatch(array[cellNo + lvl * 2]) && doesCellMatch(array[cellNo + lvl])) {
                 return true;
             }
@@ -123,29 +133,52 @@ const hasDiagonalWin = (array, cellNo) => {
         return false;
 };
 
+const setWinnerText = () => {
+    if (whosTurn === X_PLAYER) {
+        console.log(TEXT_X_WON);
+        myGame.endScreenText.innerHTML = TEXT_X_WON;
+    }
+    else if (whosTurn === O_PLAYER) {
+        console.log(TEXT_O_WON);
+        myGame.endScreenText.innerHTML = TEXT_O_WON;
+    }
+}
 
+const allCellsFull = (array) => {
+    const len = array.length;
+    for (let i = 0; i < len; i++) {
+        console.log("allcells full", i, (!array[i].classList.contains(X_PLAYER) || !array[i].classList.contains(O_PLAYER)));
+        if (!array[i].classList.contains(X_PLAYER) && !array[i].classList.contains(O_PLAYER)) {
+            return false;
+        }
+    }
+    return true;
+};
 
 const isGameFinished = (array, cellNo) => {
     if (hasHorizontalWin(array, cellNo)) {
+        setWinnerText();
         console.log("HORIZONTAL WIN - - - - ");
         return true;
     } 
-    if (hasVerticalWin(array, cellNo)) {
+    else if (hasVerticalWin(array, cellNo)) {
+        setWinnerText();
         console.log("VERTICAL WIN | | | | ");
         return true;
     }
-    if (hasDiagonalWin(array, cellNo)) {
+    else if (hasDiagonalWin(array, cellNo)) {
+        setWinnerText();
         console.log("DIAGONAL WIN / / / / / ");
         return true;
     }
-    // ELSE IF ALL CELLS ARE TAKEN
-    /* else if ( 1 ) {
-            // DRAFT
+    else if (allCellsFull(array)) {
+        console.log(TEXT_DRAW);
+        myGame.endScreenText.innerHTML = TEXT_DRAW;
+        return true;
     }
     else {
-        // GAME CONTINUES
         return false;
-    } */
+    }
 }
 
 const switchTurn = () => {
