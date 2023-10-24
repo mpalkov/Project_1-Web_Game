@@ -30,17 +30,22 @@ class Game {
     };
 }
 
+const doesCellMatch = (cell) => {
+    return cell.classList.contains(whosTurn);
+};
+
+// these 2 functions search if all 2 adjacent cells match with the current player symbol (works for bigger boards too (5x5 7x7 ...))
 const hasHorizontalWin = (array, cellNo) => {
     const lvl = myGame.level;
     for (let row = 0; row < lvl; row++) {
         if (row === Math.floor(cellNo / lvl)) {
-            if (array[cellNo + 2] && array[cellNo + 2].classList.contains(whosTurn) && array[cellNo + 1].classList.contains(whosTurn)) {
+            if (array[cellNo + 2] && doesCellMatch(array[cellNo + 2] && doesCellMatch(array[cellNo + 1])) {
                 return true;
             }
-            else if (array[cellNo - 2] && array[cellNo - 2].classList.contains(whosTurn) && array[cellNo - 1].classList.contains(whosTurn)) {
+            else if (array[cellNo - 2] && doesCellMatch(array[cellNo - 2]) && doesCellMatch(array[cellNo - 1])) {
                 return true;
             }
-            else if (array[cellNo - 1] && array[cellNo + 1] && array[cellNo - 1].classList.contains(whosTurn) && array[cellNo + 1].classList.contains(whosTurn)) {
+            else if (array[cellNo - 1] && array[cellNo + 1] && doesCellMatch(array[cellNo - 1]) && doesCellMatch(array[cellNo + 1])) {
                 return true;
             }
             else {
@@ -55,13 +60,13 @@ const hasVerticalWin = (array, cellNo) => {
     for (let col = 0; col < lvl; col++) {
         if (col === cellNo % lvl) {            
             const clickCol = cellNo % lvl;
-            if (array[cellNo + lvl * 2] && array[cellNo + lvl * 2].classList.contains(whosTurn) && array[cellNo + lvl].classList.contains(whosTurn)) {
+            if (array[cellNo + lvl * 2] && doesCellMatch(array[cellNo + lvl * 2]) && doesCellMatch(array[cellNo + lvl])) {
                 return true;
             }
-            else if (array[cellNo - lvl * 2] && array[cellNo - lvl * 2].classList.contains(whosTurn) && array[cellNo - lvl].classList.contains(whosTurn)) {
+            else if (array[cellNo - lvl * 2] && doesCellMatch(array[cellNo - lvl * 2]) && doesCellMatch(array[cellNo - lvl])) {
                 return true;
             }
-            else if (array[cellNo - lvl] && array[cellNo + lvl] && array[cellNo - lvl].classList.contains(whosTurn) && array[cellNo + lvl].classList.contains(whosTurn)) {
+            else if (array[cellNo - lvl] && array[cellNo + lvl] && doesCellMatch(array[cellNo - lvl]) && doesCellMatch(array[cellNo + lvl])) {
                 return true;
             }
             else {
@@ -69,10 +74,6 @@ const hasVerticalWin = (array, cellNo) => {
             }
         }
     }
-};
-
-const doesCellMatch = (cell) => {
-    return cell.classList.contains(whosTurn);
 };
 
 const hasDiagonalWin = (array, cellNo) => {
