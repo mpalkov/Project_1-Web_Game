@@ -1,7 +1,7 @@
 const X_PLAYER = 'x';
 const O_PLAYER = 'o';
-const TEXT_X_WON = "X WINS!"
-const TEXT_O_WON = "O WINS!"
+const TEXT_X_WON = "× WINS!"
+const TEXT_O_WON = "𝗢 WINS!"
 const TEXT_DRAW = "DRAW, NO WINNER!"
 let whosTurn = X_PLAYER;
 let myGame = null;
