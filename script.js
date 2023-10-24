@@ -70,31 +70,38 @@ const hasVerticalWin = (array, cellNo) => {
         }
     }
 };
+
+const doesCellMatch = (cell) => {
+    return cell.classList.contains(whosTurn);
+};
+
 const hasDiagonalWin = (array, cellNo) => {
-    const lvlStepUp = myGame.level + 1;
-    const lvlStepDn = myGame.level - 1;
-    if (array[cellNo + 2 * lvlStepUp] && array[cellNo + 2 * lvlStepUp].classList.contains(whosTurn) && array[cellNo + lvlStepUp].classList.contains(whosTurn)) {
+    const nextDnRight = myGame.level + 1;
+    const nextDnLeft = myGame.level - 1;
+    // const lvlStepUp = myGame.level + 1;
+    // const lvlStepDn = myGame.level - 1;
+
+    //check if the cells are match with symbol of current player
+    const isCell0 = doesCellMatch(array[0]);
+    const isCell2 = doesCellMatch(array[2]);
+    const isCell4 = doesCellMatch(array[4]);
+    const isCell6 = doesCellMatch(array[6]);
+    const isCell8 = doesCellMatch(array[8]);
+
+    // check if the cells in 2 diagonal directions are the same
+    if (isCell0 && isCell4 && isCell8) {
         return true;
     }
-    else if (array[cellNo - 2 * lvlStepUp] && array[cellNo - 2 * lvlStepUp].classList.contains(whosTurn) && array[cellNo - lvlStepUp].classList.contains(whosTurn)) {
+    else if (isCell2 && isCell4 && isCell6) {
         return true;
     }
-    else if (array[cellNo - lvlStepUp] && array[cellNo + lvlStepUp] && array[cellNo - lvlStepUp].classList.contains(whosTurn) && array[cellNo + lvlStepUp].classList.contains(whosTurn)) {
-        return true;
-    }
-    if (array[cellNo + 2 * lvlStepDn] && array[cellNo + 2 * lvlStepDn].classList.contains(whosTurn) && array[cellNo + lvlStepDn].classList.contains(whosTurn)) {
-        return true;
-    }
-    else if (array[cellNo - 2 * lvlStepDn] && array[cellNo - 2 * lvlStepDn].classList.contains(whosTurn) && array[cellNo - lvlStepDn].classList.contains(whosTurn)) {
-        return true;
-    }
-    else if (array[cellNo - lvlStepDn] && array[cellNo - lvlStepDn].classList.contains(whosTurn) && array[cellNo + lvlStepDn].classList.contains(whosTurn)) {
-        return true;
-    }
+    else
+        return false;
 };
 
 
-function checkIfFinished(array, cellNo) {
+
+const checkIfFinished = (array, cellNo) => {
     if (hasHorizontalWin(array, cellNo)) {
         console.log("HORIZONTAL WIN - - - - ");
         return (true);
@@ -120,7 +127,7 @@ function checkIfFinished(array, cellNo) {
 const myGame = new Game;
 // resetAll
 
-function switchTurn() {
+const switchTurn = () => {
     if (whosTurn === X_PLAYER) {
         whosTurn = O_PLAYER;
     }
@@ -129,7 +136,7 @@ function switchTurn() {
     }
 }
 
-function toggleCell(cell) {
+const toggleCell = (cell) => {
     //console.log("clicked", cell);
     cell.classList.add(whosTurn);
 }
