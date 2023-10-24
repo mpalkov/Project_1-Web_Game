@@ -2,6 +2,13 @@ const X_PLAYER = 'x';
 const O_PLAYER = 'o';
 let whosTurn = X_PLAYER;
 let myGame = null;
+let isGameOver = true;
+
+function startNewGame() {
+    myGame = new Game;
+        // resetAll
+}
+
 class Game {
     constructor() {
         // element = board
@@ -22,27 +29,24 @@ class Game {
                 const cellNo = Number(element.id);
                 toggleCell(element);
                 if (isGameFinished(this.cells, cellNo)) {
+                    isGameOver = true;
                     this.endScreen.classList.toggle("hidden");
                 }
                 switchTurn();
             }, {once:true});
         });
-
         this.newGameBtn.addEventListener("click", (e) => {
-            this.endScreen.classList.toggle("hidden");
-            this.gameBoard.innerHTML = "";
-            startNewGame();
+            if (isGameOver) {
+                this.endScreen.classList.toggle("hidden");
+                this.gameBoard.innerHTML = "";
+                isGameOver = false;
+                startNewGame();
+            }
         });
     }
-
 }
 
-const startNewGame = () => {
-    myGame = new Game;
-    // resetAll
-};
-
-startNewGame();
+myGame = new Game;
 
 /* const restartGame = () => {
     const endGame = document.querySelector(".endgame");
