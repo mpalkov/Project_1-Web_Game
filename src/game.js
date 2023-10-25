@@ -1,62 +1,38 @@
-const X_PLAYER = 'x';
-const O_PLAYER = 'o';
-const TEXT_X_WON = "× WINS!"
-const TEXT_O_WON = "𝗢 WINS!"
-const TEXT_DRAW = "DRAW, NO WINNER!"
-let whosTurn = X_PLAYER;
-let myGame = null;
-let isGameOver = true;
-
-function startNewGame() {
-    myGame = new Game;
-        // resetAll
-}
-
+console.log("game.js OK");
 class Game {
     constructor() {
-        // element = board
         this.level = 3;
-        this.endScreen = document.querySelector(".end-screen");
         this.gameBoard = document.querySelector("#gameBoard");
-        this.newGameBtn = document.querySelector(".end-screen button");
-        this.endScreenText = document.querySelector(".end-screen h2");
+    }
 
+    populateGame() {
         for (let i = 0; i < this.level * this.level; i++) {
             const cell = document.createElement("div");
             cell.classList.add("cell");
             cell.id = i;
             this.gameBoard.appendChild(cell);
         }
-        this.cells = document.querySelectorAll(".cell");
-        this.cells.forEach(element => {
+        this.addClickHandlers();
+    }
+
+    addClickHandlers() {
+        const cells = document.querySelectorAll(".cell");
+        cells.forEach(element => {
             element.addEventListener("click", (event) => {
                 const cellNo = Number(element.id);
                 toggleCell(element);
-                if (isGameFinished(this.cells, cellNo)) {
+                if (isGameFinished(cells, cellNo)) {
                     isGameOver = true;
-                    this.endScreen.classList.toggle("hidden");
+                    endScreen.classList.toggle("hidden");
                 }
-                switchTurn();
+                else{
+                    switchTurn();
+                }
             }, {once:true});
-        });
-        this.newGameBtn.addEventListener("click", (e) => {
-            if (isGameOver) {
-                this.endScreen.classList.toggle("hidden");
-                this.gameBoard.innerHTML = "";
-                isGameOver = false;
-                startNewGame();
-            }
         });
     }
 }
 
-myGame = new Game;
-
-/* const restartGame = () => {
-    const endGame = document.querySelector(".endgame");
-    endGame.classList.toggle("hidden");
-}
- */
 const doesCellMatch = (cell) => {
     return cell.classList.contains(whosTurn);
 };
@@ -136,18 +112,17 @@ const hasDiagonalWin = (array, cellNo) => {
 const setWinnerText = () => {
     if (whosTurn === X_PLAYER) {
         console.log(TEXT_X_WON);
-        myGame.endScreenText.innerHTML = TEXT_X_WON;
+        endScreenText.innerHTML = TEXT_X_WON;
     }
     else if (whosTurn === O_PLAYER) {
         console.log(TEXT_O_WON);
-        myGame.endScreenText.innerHTML = TEXT_O_WON;
+        endScreenText.innerHTML = TEXT_O_WON;
     }
 }
 
 const allCellsFull = (array) => {
     const len = array.length;
     for (let i = 0; i < len; i++) {
-        console.log("allcells full", i, (!array[i].classList.contains(X_PLAYER) || !array[i].classList.contains(O_PLAYER)));
         if (!array[i].classList.contains(X_PLAYER) && !array[i].classList.contains(O_PLAYER)) {
             return false;
         }
@@ -173,7 +148,7 @@ const isGameFinished = (array, cellNo) => {
     }
     else if (allCellsFull(array)) {
         console.log(TEXT_DRAW);
-        myGame.endScreenText.innerHTML = TEXT_DRAW;
+        endScreenText.innerHTML = TEXT_DRAW;
         return true;
     }
     else {
@@ -191,6 +166,5 @@ const switchTurn = () => {
 }
 
 const toggleCell = (cell) => {
-    //console.log("clicked", cell);
     cell.classList.add(whosTurn);
 }
