@@ -4,6 +4,8 @@ class Game {
         this.level = 3;
         this.gameBoard = document.querySelector("#gameBoard");
         this.gameBoard.classList.add("xturn");
+        this.turnTextElement = document.querySelector(".turn-text span");
+        this.whosTurn = X_PLAYER;
     }
 
     populateGame() {
@@ -35,7 +37,7 @@ class Game {
 }
 
 const doesCellMatch = (cell) => {
-    return cell.classList.contains(whosTurn);
+    return cell.classList.contains(myGame.whosTurn);
 };
 
 // these 2 functions search if all 2 adjacent cells match with the current player symbol (works for bigger boards too (5x5 7x7 ...))
@@ -111,13 +113,13 @@ const hasDiagonalWin = (array, cellNo) => {
 };
 
 const setWinnerText = () => {
-    if (whosTurn === X_PLAYER) {
+    if (myGame.whosTurn === X_PLAYER) {
         console.log(TEXT_X_WON);
-        endScreenText.innerHTML = TEXT_X_WON;
+        msgText.innerHTML = TEXT_X_WON;
     }
-    else if (whosTurn === O_PLAYER) {
+    else if (myGame.whosTurn === O_PLAYER) {
         console.log(TEXT_O_WON);
-        endScreenText.innerHTML = TEXT_O_WON;
+        msgText.innerHTML = TEXT_O_WON;
     }
 }
 
@@ -149,7 +151,7 @@ const isGameFinished = (array, cellNo) => {
     }
     else if (allCellsFull(array)) {
         console.log(TEXT_DRAW);
-        endScreenText.innerHTML = TEXT_DRAW;
+        msgText.innerHTML = TEXT_DRAW;
         return true;
     }
     else {
@@ -158,21 +160,20 @@ const isGameFinished = (array, cellNo) => {
 }
 
 const switchTurn = () => {
-    const turnTextElement = document.querySelector(".turn-text span");
-    if (whosTurn === X_PLAYER) {
-        whosTurn = O_PLAYER;
+    if (myGame.whosTurn === X_PLAYER) {
+        myGame.whosTurn = O_PLAYER;
         myGame.gameBoard.classList.add("oturn");
         myGame.gameBoard.classList.remove("xturn");
-        turnTextElement.innerHTML = O_SYMBOL;
+        myGame.turnTextElement.innerHTML = O_SYMBOL;
     }
     else {
-        whosTurn = X_PLAYER;
+        myGame.whosTurn = X_PLAYER;
         myGame.gameBoard.classList.add("xturn");
         myGame.gameBoard.classList.remove("oturn");
-        turnTextElement.innerHTML = X_SYMBOL;
+        myGame.turnTextElement.innerHTML = X_SYMBOL;
     }
 }
 
 const toggleCell = (cell) => {
-    cell.classList.add(whosTurn);
+    cell.classList.add(myGame.whosTurn);
 }
