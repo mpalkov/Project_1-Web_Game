@@ -6,6 +6,7 @@ class Game {
         this.gameBoard.classList.add("xturn");
         this.turnTextElement = document.querySelector(".turn-text span");
         this.whosTurn = X_PLAYER;
+        this.player2 = null;
     }
 
     populateGame() {

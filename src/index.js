@@ -8,6 +8,8 @@ const X_SYMBOL = "×";
 const O_SYMBOL = "𝗢";
 const PERSON_SYMBOL = "🙂";
 const AI_SYMBOL = "🤖";
+const HUMAN = "human";
+const AI = "AI";
 
 let myGame = null;
 let isGameOver = true;
@@ -16,8 +18,9 @@ const new2playerBtn = document.querySelector("#players-game-button");
 const newAIplayerBtn = document.querySelector("#AI-game-button")
 const msgText = document.querySelector(".msg-screen-container h2");
 
-const startNewGame = () => {
+const startNewGame = (player2type) => {
     myGame = new Game;
+    myGame.player2 = player2type;
     myGame.populateGame();
     document.querySelector(".turn-text").classList.remove("hidden");
     myGame.turnTextElement.innerHTML = X_SYMBOL;
@@ -29,8 +32,6 @@ new2playerBtn.addEventListener("click", () => {
         msgScreen.classList.toggle("hidden");
         gameBoard.innerHTML = "";
         isGameOver = false;
-        startNewGame();
+        startNewGame(HUMAN);
     }
 });
-
-startNewGame();
