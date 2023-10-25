@@ -19,27 +19,50 @@ class Game {
         this.addClickHandlers();
     }
 
+    onClickActions(element, cells) {
+        const cellNo = Number(element.id);
+        toggleCell(element);
+        // console.log("free cells: ", document.querySelectorAll(".cell:not(.x):not(.o)"));
+        if (isGameFinished(cells, cellNo)) {
+            isGameOver = true;
+            msgScreen.classList.toggle("hidden");
+            return ;
+        }
+        switchTurn();
+    }
+
     addClickHandlers() {
         const cells = document.querySelectorAll(".cell");
         cells.forEach(element => {
             element.addEventListener("click", (event) => {
-                const cellNo = Number(element.id);
-                toggleCell(element);
-                if (isGameFinished(cells, cellNo)) {
-                    isGameOver = true;
-                    msgScreen.classList.toggle("hidden");
-                }
-                else{
-                    switchTurn();
+                this.onClickActions(element, cells);
+                if (myGame.player2 === AI && myGame.whosTurn === O_PLAYER) {
+                    // Choose random empty cell
+                    const freeCells = document.querySelectorAll(".cell:not(.x):not(.o)");
+                    const AInbr = Math.floor(Math.random() * freeCells.length);
+                    const AIchosenCell = cells[freeCells[AInbr].id];
+                    setTimeout(() => {
+                        this.onClickActions(AIchosenCell, cells);
+                    }, 1000);
+                    // setTimeout 1s
+                        // toggle the cell, 
+                        // check if gameOver
+                        // switchTurn
                 }
             }, {once:true});
         });
     }
+
 }
 
 const doesCellMatch = (cell) => {
     return cell.classList.contains(myGame.whosTurn);
 };
+
+/* const AImove = () => {
+    const freeCells = document.querySelectorAll(".cell:not(.x):not(.o)");
+    const AIchosenCellNo = Math.floor(Math.random() * freeCells.length);
+} */
 
 // these 2 functions search if all 2 adjacent cells match with the current player symbol (works for bigger boards too (5x5 7x7 ...))
 const hasHorizontalWin = (array, cellNo) => {

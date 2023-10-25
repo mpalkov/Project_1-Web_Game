@@ -27,11 +27,19 @@ const startNewGame = (player2type) => {
     console.log("Game started");
 }
 
-new2playerBtn.addEventListener("click", () => {
+const onStartButtonClick = (player2type) => {
     if (isGameOver) {
         msgScreen.classList.toggle("hidden");
         gameBoard.innerHTML = "";
         isGameOver = false;
-        startNewGame(HUMAN);
+        startNewGame(player2type);
     }
+};
+
+new2playerBtn.addEventListener("click", () => {
+    onStartButtonClick(HUMAN);    
+});
+
+newAIplayerBtn.addEventListener("click", () => {
+    onStartButtonClick(AI);    
 });
