@@ -18,7 +18,9 @@ const startNewGame = () => {
     myGame = new Game;
     myGame.populateGame();
     whosTurn = X_PLAYER;
+    document.querySelector(".turn-text").classList.remove("hidden");
     console.log("Game started");
+
 }
 
 newGameBtn.addEventListener("click", (e) => {
