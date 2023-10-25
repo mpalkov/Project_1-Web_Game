@@ -10,9 +10,10 @@ const O_SYMBOL = "𝗢";
 let whosTurn = X_PLAYER;
 let myGame = null;
 let isGameOver = true;
-const endScreen = document.querySelector(".end-screen");
-const newGameBtn = document.querySelector(".end-screen button");
-const endScreenText = document.querySelector(".end-screen h2");
+const msgScreen = document.querySelector(".msg-screen-container");
+const new2playerBtn = document.querySelector("#players-game-button");
+const newAIplayerBtn = document.querySelector("#AI-game-button")
+const endScreenText = document.querySelector(".msg-screen-container h2");
 
 const startNewGame = () => {
     myGame = new Game;
@@ -23,9 +24,9 @@ const startNewGame = () => {
 
 }
 
-newGameBtn.addEventListener("click", (e) => {
+new2playerBtn.addEventListener("click", () => {
     if (isGameOver) {
-        endScreen.classList.toggle("hidden");
+        msgScreen.classList.toggle("hidden");
         gameBoard.innerHTML = "";
         isGameOver = false;
         startNewGame();

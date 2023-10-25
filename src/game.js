@@ -24,7 +24,7 @@ class Game {
                 toggleCell(element);
                 if (isGameFinished(cells, cellNo)) {
                     isGameOver = true;
-                    endScreen.classList.toggle("hidden");
+                    msgScreen.classList.toggle("hidden");
                 }
                 else{
                     switchTurn();
