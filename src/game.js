@@ -3,6 +3,7 @@ class Game {
     constructor() {
         this.level = 3;
         this.gameBoard = document.querySelector("#gameBoard");
+        this.gameBoard.classList.add("xturn");
     }
 
     populateGame() {
@@ -157,11 +158,18 @@ const isGameFinished = (array, cellNo) => {
 }
 
 const switchTurn = () => {
+    const turnTextElement = document.querySelector(".turn-text span");
     if (whosTurn === X_PLAYER) {
         whosTurn = O_PLAYER;
+        myGame.gameBoard.classList.add("oturn");
+        myGame.gameBoard.classList.remove("xturn");
+        turnTextElement.innerHTML = O_SYMBOL;
     }
     else {
         whosTurn = X_PLAYER;
+        myGame.gameBoard.classList.add("xturn");
+        myGame.gameBoard.classList.remove("oturn");
+        turnTextElement.innerHTML = X_SYMBOL;
     }
 }
 

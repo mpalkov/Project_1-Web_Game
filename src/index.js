@@ -4,6 +4,9 @@ const O_PLAYER = 'o';
 const TEXT_X_WON = "× WINS!"
 const TEXT_O_WON = "𝗢 WINS!"
 const TEXT_DRAW = "DRAW, NO WINNER!"
+const X_SYMBOL = "×";
+const O_SYMBOL = "𝗢";
+
 let whosTurn = X_PLAYER;
 let myGame = null;
 let isGameOver = true;
