@@ -37,12 +37,15 @@ class Game {
             element.addEventListener("click", (event) => {
                 this.onClickActions(element, cells);
                 if (myGame.player2 === AI && myGame.whosTurn === O_PLAYER) {
+                    // block cells from user actions while AI is playing
+                    myGame.gameBoard.classList.add("blocked");
                     // Choose random empty cell
                     const freeCells = document.querySelectorAll(".cell:not(.x):not(.o)");
                     const AInbr = Math.floor(Math.random() * freeCells.length);
                     const AIchosenCell = cells[freeCells[AInbr].id];
                     setTimeout(() => {
                         this.onClickActions(AIchosenCell, cells);
+                        myGame.gameBoard.classList.remove("blocked");
                     }, 1000);
                     // setTimeout 1s
                         // toggle the cell, 

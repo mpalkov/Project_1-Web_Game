@@ -90,12 +90,17 @@ body {
 but it's working great. */
 .xturn .cell:not(.x):not(.o):hover{
     background-image: url("./imgs/cross-svgrepo-com.svg");
-    background-color: lightgray;
+    background-color: #bcbcbc;
 }
 
 .oturn .cell:not(.x):not(.o):hover{
     background-image: url("./imgs/circle-svgrepo-com.svg");
-    background-color: lightgray;
+    background-color: #bcbcbc;
+}
+
+.blocked .cell:not(.x):not(.o) {
+    pointer-events: none;
+    background-image: none;
 }
 
 .turn-text {
