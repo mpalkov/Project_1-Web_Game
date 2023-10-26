@@ -9,7 +9,7 @@ class Game {
         this.player2 = null;
     }
 
-    populateGame() {
+    populateGame = () => {
         for (let i = 0; i < this.level * this.level; i++) {
             const cell = document.createElement("div");
             cell.classList.add("cell");
@@ -19,38 +19,39 @@ class Game {
         this.addClickHandlers();
     }
 
-    onClickActions(element, cells) {
+    switchTurn = () => {
+        if (this.whosTurn === X_PLAYER) {
+            this.whosTurn = O_PLAYER;
+            this.gameBoard.classList.add("oturn");
+            this.gameBoard.classList.remove("xturn");
+            this.turnTextElement.innerHTML = O_SYMBOL;
+        }
+        else {
+            this.whosTurn = X_PLAYER;
+            this.gameBoard.classList.add("xturn");
+            this.gameBoard.classList.remove("oturn");
+            this.turnTextElement.innerHTML = X_SYMBOL;
+        }
+    }
+
+    onClickActions = (element, cells) => {
         const cellNo = Number(element.id);
         toggleCell(element);
-        // console.log("free cells: ", document.querySelectorAll(".cell:not(.x):not(.o)"));
         if (isGameFinished(cells, cellNo)) {
             isGameOver = true;
             msgScreen.classList.toggle("hidden");
             return ;
         }
-        switchTurn();
+        this.switchTurn();
     }
 
-    addClickHandlers() {
+    addClickHandlers = () => {
         const cells = document.querySelectorAll(".cell");
         cells.forEach(element => {
             element.addEventListener("click", (event) => {
                 this.onClickActions(element, cells);
                 if (myGame.player2 === AI && myGame.whosTurn === O_PLAYER) {
-                    // block cells from user actions while AI is playing
-                    myGame.gameBoard.classList.add("blocked");
-                    // Choose random empty cell
-                    const freeCells = document.querySelectorAll(".cell:not(.x):not(.o)");
-                    const AInbr = Math.floor(Math.random() * freeCells.length);
-                    const AIchosenCell = cells[freeCells[AInbr].id];
-                    setTimeout(() => {
-                        this.onClickActions(AIchosenCell, cells);
-                        myGame.gameBoard.classList.remove("blocked");
-                    }, 1000);
-                    // setTimeout 1s
-                        // toggle the cell, 
-                        // check if gameOver
-                        // switchTurn
+                    this.aiMove(cells);
                 }
             }, {once:true});
         });
@@ -58,14 +59,30 @@ class Game {
 
 }
 
+class AiGame extends Game {
+    constructor() {
+        super();
+        this.player2 = AI;
+    }
+
+    aiMove = (cells) => {
+        // block cells from user actions while AI is playing
+        myGame.gameBoard.classList.add("blocked");
+        // Choose random empty cell
+        const freeCells = document.querySelectorAll(".cell:not(.x):not(.o)");
+        const AInbr = Math.floor(Math.random() * freeCells.length);
+        const AIchosenCell = cells[freeCells[AInbr].id];
+        setTimeout(() => {
+            this.onClickActions(AIchosenCell, cells);
+            // unblock cells
+            myGame.gameBoard.classList.remove("blocked");
+        }, 400);
+    }
+}
+
 const doesCellMatch = (cell) => {
     return cell.classList.contains(myGame.whosTurn);
 };
-
-/* const AImove = () => {
-    const freeCells = document.querySelectorAll(".cell:not(.x):not(.o)");
-    const AIchosenCellNo = Math.floor(Math.random() * freeCells.length);
-} */
 
 // these 2 functions search if all 2 adjacent cells match with the current player symbol (works for bigger boards too (5x5 7x7 ...))
 const hasHorizontalWin = (array, cellNo) => {
@@ -98,7 +115,6 @@ const hasVerticalWin = (array, cellNo) => {
     const lvl = myGame.level;
     for (let col = 0; col < lvl; col++) {
         if (col === cellNo % lvl) {      
-            // const clickRow = cellNo / lvl;
             if (array[cellNo + lvl * 2] && doesCellMatch(array[cellNo + lvl * 2]) && doesCellMatch(array[cellNo + lvl])) {
                 return true;
             }
@@ -118,17 +134,12 @@ const hasVerticalWin = (array, cellNo) => {
 const hasDiagonalWin = (array, cellNo) => {
     const nextDnRight = myGame.level + 1;
     const nextDnLeft = myGame.level - 1;
-    // const lvlStepUp = myGame.level + 1;
-    // const lvlStepDn = myGame.level - 1;
-
-    //check if the cells are match with symbol of current player
     const isCell0 = doesCellMatch(array[0]);
     const isCell2 = doesCellMatch(array[2]);
     const isCell4 = doesCellMatch(array[4]);
     const isCell6 = doesCellMatch(array[6]);
     const isCell8 = doesCellMatch(array[8]);
 
-    // check if the cells in 2 diagonal directions are the same
     if (isCell0 && isCell4 && isCell8) {
         return true;
     }
@@ -183,21 +194,6 @@ const isGameFinished = (array, cellNo) => {
     }
     else {
         return false;
-    }
-}
-
-const switchTurn = () => {
-    if (myGame.whosTurn === X_PLAYER) {
-        myGame.whosTurn = O_PLAYER;
-        myGame.gameBoard.classList.add("oturn");
-        myGame.gameBoard.classList.remove("xturn");
-        myGame.turnTextElement.innerHTML = O_SYMBOL;
-    }
-    else {
-        myGame.whosTurn = X_PLAYER;
-        myGame.gameBoard.classList.add("xturn");
-        myGame.gameBoard.classList.remove("oturn");
-        myGame.turnTextElement.innerHTML = X_SYMBOL;
     }
 }
 

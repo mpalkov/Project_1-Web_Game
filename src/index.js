@@ -19,8 +19,13 @@ const newAIplayerBtn = document.querySelector("#AI-game-button")
 const msgText = document.querySelector(".msg-screen-container h2");
 
 const startNewGame = (player2type) => {
-    myGame = new Game;
-    myGame.player2 = player2type;
+    if (player2type === AI) {
+        myGame = new AiGame;
+    }
+    else {
+        myGame = new Game;
+        myGame.player2 = player2type;
+    }
     myGame.populateGame();
     document.querySelector(".turn-text").classList.remove("hidden");
     myGame.turnTextElement.innerHTML = X_SYMBOL;
