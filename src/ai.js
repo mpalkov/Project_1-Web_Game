@@ -4,17 +4,73 @@ class AiGame extends Game {
         this.player2 = AI;
     }
 
+    aiChooseCell = (cells) => {
+        const freeCells = document.querySelectorAll(".cell:not(.x):not(.o)");
+        let AIchosenCell = null;
+    
+        // First search if you can do a move to WIN
+        AIchosenCell = this.winningCell(cells, freeCells)
+        if (AIchosenCell) {
+            console.log("chosen WIN cell")
+            return AIchosenCell;     
+        }
+
+        // Second, if no winning move exists, search if enemy has a winning move and block it.
+        /* else if () {
+            return AIchosenCell;
+        } */
+    
+        // Else, choose a random empty cell
+        if (1) {
+            console.log("chosen RANDOM cell")
+            AIchosenCell = this.randomMove(cells, freeCells);
+        }
+        return AIchosenCell;
+    };
+
     aiMove = (cells) => {
         // block cells from user actions while AI is playing
         myGame.gameBoard.classList.add("blocked");
-        // Choose random empty cell
-        const freeCells = document.querySelectorAll(".cell:not(.x):not(.o)");
-        const AInbr = Math.floor(Math.random() * freeCells.length);
-        const AIchosenCell = cells[freeCells[AInbr].id];
+        const chosenCell = this.aiChooseCell(cells);
         setTimeout(() => {
-            this.onClickActions(AIchosenCell, cells);
+
+            this.onClickActions(chosenCell, cells, NOT_TEST);
             // unblock cells
             myGame.gameBoard.classList.remove("blocked");
         }, 400);
-    }
+    };
+
+    // IF win found, return TheChosenCell, fill it and win the game!
+    winningCell = (cells, freeCells) => {
+        const freeCellsToTry = freeCells.length;
+        for (let i = 0; i < freeCellsToTry; i++) {
+            const testCells = [...cells];
+            const testCellNo = freeCells[i].id
+            if (this.onClickActions(testCells[testCellNo], testCells, IS_TEST)) {
+                return cells[testCellNo];
+            }
+        }
+        // if win not found, return false;
+        return null;
+    };
+
+    randomMove = (cells, freeCells) => {
+        const AInbr = Math.floor(Math.random() * freeCells.length);
+        const randomCell = cells[freeCells[AInbr].id];
+        console.log("randommove chosencell: ", randomCell);
+        return randomCell;
+    };
+
+//    EnemyWinFound
+
+    
+
+
 }
+
+// 1 - search for possible win 
+    // winningCell(freeCells)
+// 2 - search for possible enemy win and block it
+    // enemyWinFound(freeCells)
+// 3 - random move if any of situations 1 and 2
+    // rendomMove

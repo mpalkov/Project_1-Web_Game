@@ -10,6 +10,8 @@ const PERSON_SYMBOL = "🙂";
 const AI_SYMBOL = "🤖";
 const HUMAN = "human";
 const AI = "AI";
+const IS_TEST = true;
+const NOT_TEST = false;
 
 let myGame = null;
 let isGameOver = true;
