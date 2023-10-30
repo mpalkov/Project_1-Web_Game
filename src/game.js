@@ -34,22 +34,25 @@ class Game {
         }
     }
 
-    onClickActions = (element, cells) => {
+    onClickActions = (element, cells, isTest) => {
         const cellNo = Number(element.id);
         toggleCell(element);
         if (isGameFinished(cells, cellNo)) {
             isGameOver = true;
             msgScreen.classList.toggle("hidden");
-            return ;
+            return true;
         }
-        this.switchTurn();
+        if (!isTest) {
+            this.switchTurn();
+        }
+        return false;
     }
 
     addClickHandlers = () => {
         const cells = document.querySelectorAll(".cell");
         cells.forEach(element => {
             element.addEventListener("click", (event) => {
-                this.onClickActions(element, cells);
+                this.onClickActions(element, cells, NOT_TEST);
                 if (myGame.player2 === AI && myGame.whosTurn === O_PLAYER) {
                     this.aiMove(cells);
                 }
