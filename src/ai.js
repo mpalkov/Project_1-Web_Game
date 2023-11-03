@@ -44,7 +44,6 @@ class AiGame extends Game {
 	aiChooseCell = (cells) => {
         const freeCells = document.querySelectorAll(".cell:not(.x):not(.o)");
         let AIchosenCell = null;
-    
         // First search if you can do a move to WIN
         AIchosenCell = this.winningCell(cells, freeCells)
         if (AIchosenCell) {
@@ -76,5 +75,4 @@ class AiGame extends Game {
             myGame.gameBoard.classList.remove("blocked");
         }, 400);
     };
-
 }
