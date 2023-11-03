@@ -3,7 +3,8 @@ class Game {
     constructor() {
         this.level = 3;
         this.gameBoard = document.querySelector("#gameBoard");
-        this.gameBoard.classList.add("xturn");
+		this.gameBoard.classList.add("xturn");
+		this.gameBoard.classList.remove("oturn");
         this.turnTextElement = document.querySelector(".turn-text span");
         this.whosTurn = X_PLAYER;
         this.player2 = null;
@@ -38,14 +39,21 @@ class Game {
         const cellNo = Number(element.id);
         toggleCell(element);
         if (isGameFinished(cells, cellNo)) {
+			if (isTest) {
+				toggleCell(element);
+				return true;
+			}
             isGameOver = true;
-            msgScreen.classList.toggle("hidden");
+            msgScreen.classList.remove("hidden");
             return true;
         }
+		else if (isTest){
+			toggleCell(element);
+		}
         if (!isTest) {
             this.switchTurn();
         }
-        return false;
+		return false;
     }
 
     addClickHandlers = () => {
@@ -59,7 +67,6 @@ class Game {
             }, {once:true});
         });
     }
-
 }
 
 const setWinnerText = () => {
@@ -100,5 +107,5 @@ const isGameFinished = (array, cellNo) => {
 }
 
 const toggleCell = (cell) => {
-    cell.classList.add(myGame.whosTurn);
+    cell.classList.toggle(myGame.whosTurn);
 }
