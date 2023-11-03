@@ -4,6 +4,22 @@ class AiGame extends Game {
         this.player2 = AI;
     }
 
+	enemyCellToBlock = (cells, freeCells) => {
+		const freeCellsToTry = freeCells.length;
+		this.whosTurn = X_PLAYER;
+        for (let i = 0; i < freeCellsToTry; i++) {
+            const testCells = [...cells];
+            const testCellNo = freeCells[i].id
+            if (this.onClickActions(testCells[testCellNo], testCells, IS_TEST)) {
+				this.whosTurn = O_PLAYER;
+                return cells[testCellNo];
+            }
+        }
+        // if win not found, return false;
+		this.whosTurn = O_PLAYER;
+        return null;
+	}
+
 	randomMove = (cells, freeCells) => {
         const AInbr = Math.floor(Math.random() * freeCells.length);
         const randomCell = cells[freeCells[AInbr].id];
@@ -36,12 +52,13 @@ class AiGame extends Game {
             return AIchosenCell;
         }
         // Second, if no winning move exists, search if enemy has a winning move and block it.
-        /* else if () {
-            return AIchosenCell;
-        } */
-    
+		AIchosenCell = this.enemyCellToBlock(cells, freeCells)
+        if (AIchosenCell) {
+			console.log("chosen BLOCK cell")
+			return AIchosenCell;
+		}
         // Else, choose a random empty cell
-        if (1) {
+        else {
             console.log("chosen RANDOM cell")
             AIchosenCell = this.randomMove(cells, freeCells);
         }
