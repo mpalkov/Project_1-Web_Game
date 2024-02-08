@@ -6,7 +6,7 @@ My idea is to make the classic Tic-Tac-Toe game. 2 players putting X and O-s in 
 ## Try it!
 <img src="https://github.com/mpalkov/Project_1-Web_Game/assets/102831536/2d155015-b63d-491f-a3ac-5c60a08e54f1" alt="tic-tac-toe preview" width="250px"/>
 
-https://mpalkov.github.io/Project1-WebGame/
+https://mpalkov.github.io/tic-tac-toe/
 
 ## Technical requirements
 - Render a game in the browser.
