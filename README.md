@@ -1,10 +1,11 @@
 # Martin's Tic-Tac-Toe
 
+https://github.com/mpalkov/tic-tac-toe/assets/102831536/3d80c82f-a3d9-464e-bdef-b9acc0b803b6
+
 ## The project idea
 My idea is to make the classic Tic-Tac-Toe game. 2 players putting X and O-s in the 3x3 grid. The first one to accomplish 3 in a row wins. Else a draw is forced.
 
 ## Try it!
-<img src="https://github.com/mpalkov/Project_1-Web_Game/assets/102831536/2d155015-b63d-491f-a3ac-5c60a08e54f1" alt="tic-tac-toe preview" width="250px"/>
 
 https://mpalkov.github.io/tic-tac-toe/
 
