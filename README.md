@@ -42,6 +42,7 @@ If I have time, I will apply some of these extras
 - add sound effects
 - add more difficulty levels (5x5 / 7x7)
 - make it more fun
+- Integrate with OpenAI API and play against chat-GPT (will require backend with openAI NodeJS library and API Key)
 
 
 ## Approach and learnings
